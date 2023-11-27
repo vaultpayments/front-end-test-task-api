@@ -1,7 +1,8 @@
 const express = require("express");
+const cors = require("cors");
 const { corporationNumbers } = require("./corporationNumbers");
 const app = express();
-const port = 8080;
+const port = 8089;
 
 const canadianPhoneNumberRegex = /^\+1\d{10}$/;
 
@@ -11,6 +12,7 @@ const isValidCorporationNumber = (corporationNumber) =>
 const isValidPhone = (phone) => phone && canadianPhoneNumberRegex.test(phone);
 
 app.use(express.json());
+app.use(cors());
 
 app.get("/corporationNumber/:corporationNumber", (req, res) => {
   const corporationNumber = req.params.corporationNumber;
@@ -34,16 +36,16 @@ app.get("/corporationNumber/:corporationNumber", (req, res) => {
   });
 });
 
-app.post("/company-details", (req, res) => {
+app.post("/profile-details", (req, res) => {
   const formData = req.body;
 
   console.log("Submitted form data", req.ip);
 
   if (
-    !formData.firstName ||
-    !formData.lastName ||
-    !formData.corporationNumber ||
-    !formData.phone
+    formData.firstName === undefined ||
+    formData.lastName === undefined ||
+    formData.corporationNumber === undefined ||
+    formData.phone === undefined
   ) {
     res.status(400).json({
       message: "Missing required fields",
