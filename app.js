@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { corporationNumbers } = require("./corporationNumbers");
 const app = express();
-const port = 8089;
+const port = process.env.PORT || 8089;
 
 const canadianPhoneNumberRegex = /^\+1\d{10}$/;
 
