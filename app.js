@@ -36,6 +36,28 @@ app.get("/corporationNumber/:corporationNumber", (req, res) => {
   });
 });
 
+app.get("/corporation-number/:corporationNumber", (req, res) => {
+  const corporationNumber = req.params.corporationNumber;
+
+  console.log(`Checking corporation number: ${corporationNumber}`, req.ip);
+
+  if (corporationNumber) {
+    if (isValidCorporationNumber(corporationNumber)) {
+      res.json({
+        corporationNumber,
+        valid: true,
+      });
+
+      return;
+    }
+  }
+
+  res.status(404).json({
+    valid: false,
+    message: "Invalid corporation number",
+  });
+});
+
 app.post("/profile-details", (req, res) => {
   const formData = req.body;
 
